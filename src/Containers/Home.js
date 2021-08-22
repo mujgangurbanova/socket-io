@@ -1,16 +1,10 @@
-import "./App.css";
-import Home from "./Containers/Home"
-
-import * as R from "ramda";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import "../App.css";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { io } from "socket.io-client";
-import Profile  from "./components/Profile"
-import Chat from "./components/Chat";
+import Profile  from "../components/Profile"
+import Chat from "../components/Chat";
 
-function App() {
+function Home() {
   // const [name, setName] = useState("");
   // const [ids, setIds] = useState([]);
 
@@ -80,10 +74,31 @@ function App() {
   // }, []);
 
   return (
-      <Home></Home>
+      <Page>
+        <Box>
+          <Profile/>
+          <Chat/>
+        </Box>
+        </Page>
   );
 }
 
+const Page = styled.div`
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+`;
 
 
-export default App;
+
+const Box = styled.div`
+  height: 90%;
+  width: 90%;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+`;
+
+export default Home
