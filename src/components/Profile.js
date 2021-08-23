@@ -1,45 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import Logo from "./Logo";
-import salome from "../images/salome.jpg.jpg";
+import {
+  addNewConversationAction,
+  setConversationsAction,
+} from "../redux/actionCreators";
+import PersonInformation from "./PersonInformation";
 import eli from "../images/eli.jpg";
 import { MyImage } from "./Chat";
+import socket from "../socket";
+import axios from "../axios";
 
-const Profile = () => {
+const Profile = ({ onConversationClick }) => {
+  const [isClicked, setIsClicked] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const handleClick = () => {
-      if(isOpen){
+  const dispatch = useDispatch();
+  const conversations = useSelector((state) => state.conversations);
+  const currentUser = useSelector((state) => state.currentUser);
 
-          setIsOpen(false);
-      }else{
-          setIsOpen(true)
-      }
+  useEffect(() => {
+    socket.on("new user", (user) => {
+      dispatch(addNewConversationAction(user));
+    });
+
+    axios.get("users").then((response) => {
+      const users = response.data.filter(
+        (user) => user.username !== currentUser.username
+      );
+      dispatch(setConversationsAction(users));
+    });
+
+    return () => {
+      socket.off("new user");
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  const handleClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
   };
+
   return (
     <Personal>
       <div className="quick-chat">
         <i className="fab fa-facebook-messenger"></i>
         <h2>QuickChat</h2>
       </div>
-      <Logo />
-      <ActiveConversations >
+      <PersonInformation />
+      <ActiveConversations>
         <div className="active-talk">
           <h3>Active Conversations</h3>
-          <span>2</span>
+          <span>{conversations.length}</span>
           <i
             onClick={handleClick}
             className={isOpen ? "fas fa-chevron-up" : "fas fa-chevron-down"}
           ></i>
         </div>
         <PersonList>
-          <Persons isOpen={isOpen}>
-            <MyImage src={eli} />
-            <h3>Bella Bradford</h3>
-          </Persons>
-          <Persons isOpen={isOpen}>
-            <MyImage src={salome} />
-            <h3>David Bradford</h3>
-          </Persons>
+          {conversations.map((user) => (
+            <Persons
+              onClick={() => onConversationClick(user.username)}
+              key={user.username}
+              isOpen={isOpen}
+            >
+              <MyImage src={eli} />
+              <h3>{user.username}</h3>
+            </Persons>
+          ))}
         </PersonList>
       </ActiveConversations>
     </Personal>
@@ -117,7 +148,6 @@ const Persons = styled.div`
     isOpen ? "translateY(0)" : "translateY(-50px)"};
   transition: all 0.3s linear;
   padding: 0 8px;
-
 
   h3 {
     margin: 0 0 0 10px;

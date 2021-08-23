@@ -73,11 +73,7 @@
   width: 40px;
 }
 
-.button {
-  background: transparent;
-  outline: none;
-  border: none;
-}
+
 
 .emoji-mart-preview{
   display: none;

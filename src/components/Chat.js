@@ -4,18 +4,27 @@ import Forms from "./Forms";
 import eli from "../images/eli.jpg";
 import salome from "../images/salome.jpg.jpg";
 
-const Chat = () => {
+const Chat = ({ messages = [], toUsername }) => {
   return (
     <MessageBox>
-      <MyRow>
-        <MyMessage>salam</MyMessage>
-        <MyImage src={eli} />
-      </MyRow>
-      <PartnerRow>
-        <PartnerImage src={salome} />
-        <PartnerMessage>salam</PartnerMessage>
-      </PartnerRow>
-      <Forms />
+      {messages.map((message, index) => {
+        if (message.isFromSelf) {
+          return (
+            <MyRow key={index}>
+              <MyMessage>{message.content}</MyMessage>
+              <MyImage src={eli} />
+            </MyRow>
+          );
+        }
+
+        return (
+          <PartnerRow key={index}>
+            <PartnerImage src={salome} />
+            <PartnerMessage>{message.content}</PartnerMessage>
+          </PartnerRow>
+        );
+      })}
+      <Forms toUsername={toUsername} />
     </MessageBox>
   );
 };

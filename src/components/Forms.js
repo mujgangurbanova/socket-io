@@ -1,14 +1,19 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import rightArrow from "../images/right-arrow.svg";
 import paperClip from "../images/paperclip.svg";
 import happy from "../images/happy.svg";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import socket from "../socket";
+import { sendMessageAction } from "../redux/actionCreators";
 
-const Forms = () => {
+const Forms = ({ toUsername }) => {
   const [input, setInput] = useState("");
   const [showEmojis, setShowEmojis] = useState(false);
+  const dispatch = useDispatch();
+
   const handleClick = () => {
     if (showEmojis) {
       setShowEmojis(false);
@@ -24,6 +29,13 @@ const Forms = () => {
     let emoji = String.fromCodePoint(...codesArray);
     setInput(input + emoji);
   };
+
+  const handleMessageSend = () => {
+    dispatch(sendMessageAction(toUsername, input));
+    socket.emit("chat message", input, toUsername);
+    setInput("");
+  };
+
   return (
     <Form>
       <FormInput>
@@ -40,10 +52,8 @@ const Forms = () => {
             <Picker onSelect={addEmoji} />
           </div>
         )}
-        <button className="button" onClick={handleClick}>
-          <img className="emoji icon" alt="emoji" src={happy}></img>
-        </button>
-        <Button>
+          <img onClick={handleClick} className="emoji icon" alt="emoji" src={happy}></img>
+        <Button onClick={handleMessageSend}>
           <span>Send</span>
           <img alt="arrow" src={rightArrow}></img>
         </Button>
@@ -84,6 +94,7 @@ const FormInput = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   .enter-message {
     width: 500px;
     padding: 10px 15px;
@@ -96,7 +107,7 @@ const FormInput = styled.div`
     position: absolute;
     width: 25px;
     right: 124px;
-    top: 16px;
+    top: 10px;
     cursor: pointer;
   }
 

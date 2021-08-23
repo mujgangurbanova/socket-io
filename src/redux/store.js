@@ -1,32 +1,35 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
-
 import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 import storage from "redux-persist/lib/storage";
-import index from "../redux/reducers/index"
+
+import currentUserReducer from "./reducers/currentUser";
+import conversationsReducer from "./reducers/conversations";
+import messagesReducer from "./reducers/messages";
 
 const persistConfig = {
-	key: "root",
-	storage,
+  key: "root",
+  storage,
 };
 
 const reducer = combineReducers({
-    index
+  currentUser: currentUserReducer,
+  conversations: conversationsReducer,
+  messages: messagesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 let store;
-
 if (process.env.NODE_ENV === "development") {
-	store = createStore(
-		persistedReducer,
-		composeWithDevTools(applyMiddleware(logger))
-	);
+  store = createStore(
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(logger))
+  );
 } else {
-	store = createStore(persistedReducer);
+  store = createStore(persistedReducer);
 }
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 export { store, persistor };

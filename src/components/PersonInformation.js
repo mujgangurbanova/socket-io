@@ -1,20 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import eli from "../images/eli.jpg";
 
-const Logo = () => {
+const PersonInformation = () => {
+  const currentUser = useSelector((state) => state.currentUser);
   return (
     <Person>
       <PersonData>
         <Image src={eli}></Image>
-        <Title>Bella Bradford</Title>
-        <span>Lead UX / UI Designer</span>
+        <Title>{currentUser.username}</Title>
+        <span>{currentUser.position}</span>
       </PersonData>
     </Person>
   );
+
 };
 
-export default Logo;
+export default PersonInformation;
 
 export const Person = styled.div`
   width: 250px;
