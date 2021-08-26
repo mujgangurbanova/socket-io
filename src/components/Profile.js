@@ -13,18 +13,23 @@ import socket from "../socket";
 import styled from "styled-components";
 
 const Profile = ({ onConversationClick }) => {
-	const [isClicked, setIsClicked] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
 	const dispatch = useDispatch();
 	const conversations = useSelector((state) => state.conversations);
+	const currentConversation = useSelector((state) => state.currentConversation);
 	const currentUser = useSelector((state) => state.currentUser);
-
 	useEffect(() => {
 		socket.on("new user", (user) => {
 			dispatch(addNewConversationAction(user));
 		});
-
+		socket.on("user disconnected", (id) => {
+			dispatch(
+				setConversationsAction(conversations.filter((user) => user.id !== id))
+			);
+		});
 		axios.get("users").then((response) => {
+			console.log("**GET USER***");
+			console.log(response);
 			const users = response.data.filter(
 				(user) => user.username !== currentUser.username
 			);
@@ -67,6 +72,7 @@ const Profile = ({ onConversationClick }) => {
 							onClick={() => onConversationClick(user.username, user.id)}
 							key={user.username}
 							isOpen={isOpen}
+							active={currentConversation.id === user.id}
 						>
 							<MyImage src={eli} />
 							<h3>{user.username}</h3>
@@ -149,7 +155,7 @@ const Persons = styled.div`
 		isOpen ? "translateY(0)" : "translateY(-50px)"};
 	transition: all 0.3s linear;
 	padding: 0 8px;
-
+	background-color: ${({ active }) => (active ? "#f2f6fc" : "#FFFFFF")};
 	h3 {
 		margin: 0 0 0 10px;
 		color: #394f60;

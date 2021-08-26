@@ -33,7 +33,7 @@ const Forms = ({ toUsername }) => {
 	};
 
 	const handleMessageSend = () => {
-		dispatch(sendMessageAction(toUsername, input));
+		dispatch(sendMessageAction(toUsername.username, input));
 		socket.emit("chat message", input, toUsername.username, toUsername.id);
 		setInput("");
 	};

@@ -1,22 +1,24 @@
-import "../App.css";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import {
+	receiveMessageAction,
+	setCurrentConversationAction,
+} from "../redux/actionCreators";
 import { useDispatch, useSelector } from "react-redux";
 
-import Chat from "../components/Chat";
-import Profile from "../components/Profile";
-import { receiveMessageAction } from "../redux/actionCreators";
+import Chat from "./Chat";
+import Profile from "./Profile";
 import socket from "../socket";
 import styled from "styled-components";
 
 function Home() {
-	const [activeConversation, setActiveConversation] = useState({});
-	const messages = useSelector((state) => state.messages[activeConversation]);
+	const currentConversation = useSelector((state) => state.currentConversation);
+	const messages = useSelector(
+		(state) => state.messages[currentConversation.username]
+	);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		socket.on("receive message", (message, username) => {
-			console.log("recevied", message, username);
 			dispatch(receiveMessageAction(username, message));
 		});
 
@@ -27,15 +29,15 @@ function Home() {
 	}, []);
 
 	const handleConversationClick = (username, id) => {
-		setActiveConversation({ username, id });
+		dispatch(setCurrentConversationAction(username, id));
 	};
 
 	return (
 		<Page>
 			<Box>
 				<Profile onConversationClick={handleConversationClick} />
-				{activeConversation ? (
-					<Chat toUsername={activeConversation} messages={messages} />
+				{currentConversation.id !== null ? (
+					<Chat toUsername={currentConversation} messages={messages} />
 				) : (
 					<span>Select a conversation to start chatting</span>
 				)}
