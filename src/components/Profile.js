@@ -12,7 +12,6 @@ import socket from "../socket";
 import axios from "../axios";
 
 const Profile = ({ onConversationClick }) => {
-  const [isClicked, setIsClicked] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const conversations = useSelector((state) => state.conversations);

@@ -5,6 +5,7 @@ import eli from "../images/eli.jpg";
 
 const PersonInformation = () => {
   const currentUser = useSelector((state) => state.currentUser);
+
   return (
     <Person>
       <PersonData>

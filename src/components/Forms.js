@@ -31,9 +31,11 @@ const Forms = ({ toUsername }) => {
   };
 
   const handleMessageSend = () => {
-    dispatch(sendMessageAction(toUsername, input));
-    socket.emit("chat message", input, toUsername);
-    setInput("");
+    if (input.length > 0) {
+      dispatch(sendMessageAction(toUsername, input));
+      socket.emit("chat message", input, toUsername);
+      setInput("");
+    }
   };
 
   return (
@@ -52,7 +54,12 @@ const Forms = ({ toUsername }) => {
             <Picker onSelect={addEmoji} />
           </div>
         )}
-          <img onClick={handleClick} className="emoji icon" alt="emoji" src={happy}></img>
+        <img
+          onClick={handleClick}
+          className="emoji icon"
+          alt="emoji"
+          src={happy}
+        ></img>
         <Button onClick={handleMessageSend}>
           <span>Send</span>
           <img alt="arrow" src={rightArrow}></img>

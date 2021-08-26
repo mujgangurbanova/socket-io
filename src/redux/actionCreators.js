@@ -19,7 +19,7 @@ export function setCurrentUserAction(username, position) {
 export function addNewConversationAction(user) {
   return {
     type: ADD_NEW_CONVERSATION,
-    payload: {user}
+    payload: user,
   };
 }
 
