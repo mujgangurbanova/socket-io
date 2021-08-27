@@ -8,15 +8,15 @@ import Login from "./Login";
 import { setCurrentUserAction } from "../redux/actionCreators";
 
 function App() {
-	const currentUser = useSelector((state) => state.currentUser);
-	const dispatch = useDispatch();
-	useEffect(() => {
-		return () => {
-			dispatch(setCurrentUserAction(null, null));
-		};
-		// eslint-disable-next-line
-	}, []);
-	return currentUser.username ? <Home /> : <Login />;
+  const currentUser = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentUserAction(null, null));
+    };
+    // eslint-disable-next-line
+  }, []);
+  return currentUser.username ? <Home /> : <Login />;
 }
 
 export default App;

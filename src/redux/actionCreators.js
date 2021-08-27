@@ -1,62 +1,71 @@
 import {
 	ADD_NEW_CONVERSATION,
 	RECEIVE_MESSAGE,
+	REMOVE_CONVERSATION,
 	SEND_MESSAGE,
 	SET_CONVERSATIONS,
 	SET_CURRENT_CONVERSATION,
 	SET_CURRENT_USER,
-} from "./actionTypes";
-
-export function setCurrentUserAction(username, position) {
+  } from "./actionTypes";
+  
+  export function setCurrentUserAction(username, position) {
 	return {
-		type: SET_CURRENT_USER,
-		payload: {
-			username,
-			position,
-		},
+	  type: SET_CURRENT_USER,
+	  payload: {
+		username,
+		position,
+	  },
 	};
-}
-
-export function setCurrentConversationAction(username, id) {
+  }
+  
+  export function setCurrentConversationAction(username, id) {
 	return {
-		type: SET_CURRENT_CONVERSATION,
-		payload: {
-			username,
-			id,
-		},
+	  type: SET_CURRENT_CONVERSATION,
+	  payload: {
+		username,
+		id,
+	  },
 	};
-}
-
-export function addNewConversationAction(user) {
+  }
+  
+  export function addNewConversationAction(user) {
 	return {
-		type: ADD_NEW_CONVERSATION,
-		payload: user,
+	  type: ADD_NEW_CONVERSATION,
+	  payload: user,
 	};
-}
-
-export function setConversationsAction(conversations) {
+  }
+  
+  export function removeConversationAction(id) {
 	return {
-		type: SET_CONVERSATIONS,
-		payload: conversations,
+	  type: REMOVE_CONVERSATION,
+	  payload: id,
 	};
-}
-
-export function sendMessageAction(toUsername, content) {
+  }
+  
+  export function setConversationsAction(conversations) {
 	return {
-		type: SEND_MESSAGE,
-		payload: {
-			toUsername,
-			content,
-		},
+	  type: SET_CONVERSATIONS,
+	  payload: conversations,
 	};
-}
-
-export function receiveMessageAction(fromUsername, content) {
+  }
+  
+  export function sendMessageAction(toUsername, content) {
 	return {
-		type: RECEIVE_MESSAGE,
-		payload: {
-			fromUsername,
-			content,
-		},
+	  type: SEND_MESSAGE,
+	  payload: {
+		toUsername,
+		content,
+	  },
 	};
-}
+  }
+  
+  export function receiveMessageAction(fromUsername, content) {
+	return {
+	  type: RECEIVE_MESSAGE,
+	  payload: {
+		fromUsername,
+		content,
+	  },
+	};
+  }
+  

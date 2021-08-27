@@ -15,7 +15,6 @@ const PersonInformation = () => {
       </PersonData>
     </Person>
   );
-
 };
 
 export default PersonInformation;
@@ -33,7 +32,7 @@ export const Image = styled.img`
 `;
 const Title = styled.h3`
   margin: 10px 0;
-  color:#394F60;
+  color: #394f60;
 `;
 
 const PersonData = styled.div`
