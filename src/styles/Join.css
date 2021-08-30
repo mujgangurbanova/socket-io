@@ -6,27 +6,25 @@
     align-items: center;
     height: 50%;
     flex-direction: column;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-
-form {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+      rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
+  
+  form.login {
     width: 90vw;
     height: 90vh;
     display: flex;
     margin: 0 auto;
     justify-content: center;
     align-items: center;
-
-
-}
-
-form h1 {
+  }
+  
+  form.login h1 {
     margin: 0 0 10px 0;
     letter-spacing: 3px;
-}
-
-form .username {
+  }
+  
+  form.login .username {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
@@ -34,23 +32,24 @@ form .username {
     justify-content: center;
     width: 300px;
     padding: 7px 15px;
-}
-
-form input {
+  }
+  
+  form.login input {
     width: 100%;
     outline: none;
     padding: 7px 14px;
     border: 1px solid #e7e7e7;
     border-radius: 5px;
-}
-
-form button {
+  }
+  
+  form.login button {
     width: 300px;
     height: 33px;
     cursor: pointer;
     margin-top: 10px;
     border-radius: 5px;
-    border: 1px solid #79CBCA;
-    background-color: #79CBCA;
+    border: 1px solid #79cbca;
+    background-color: #79cbca;
     color: white;
-}
+  }
+  

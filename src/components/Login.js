@@ -23,7 +23,12 @@ function Login() {
   }
 
   return (
-    <form autoComplete="off" onSubmit={handleUsernameSubmit}>
+    <form
+      data-testid="login-component"
+      className="login"
+      autoComplete="off"
+      onSubmit={handleUsernameSubmit}
+    >
       <div className="form">
         <h1>Login</h1>
         <div className="username">

@@ -1,4 +1,4 @@
-import "./../styles/App.css";
+import "../styles/App.css";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ function App() {
   const currentUser = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    fetch("http://google.com").then((res) => res);
     return () => {
       dispatch(setCurrentUserAction(null, null));
     };

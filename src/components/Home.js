@@ -33,7 +33,7 @@ function Home() {
   };
 
   return (
-    <Page>
+    <Page data-testid="home-component">
       <Box>
         <Profile onConversationClick={handleConversationClick} />
         {currentConversation.id !== null ? (

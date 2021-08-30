@@ -1,45 +1,67 @@
 import Forms from "./Forms";
-import React from "react";
+import React, { useRef } from "react";
 import eli from "../images/eli.jpg";
 import salome from "../images/salome.jpg.jpg";
 import styled from "styled-components";
 
 const Chat = ({ messages = [], toUsername }) => {
+  const messageBoxRef = useRef();
+
+  const handleNewMessage = () => {
+    if (!messageBoxRef.current) {
+      return;
+    }
+    const height = messageBoxRef.current.scrollHeight;
+    messageBoxRef.current.scrollTo({
+      top: height,
+    });
+  };
+
   return (
-    <MessageBox>
-      {messages.map((message, index) => {
-        if (message.isFromSelf) {
-          return (
-            <MyRow key={index}>
-              <MyMessage>{message.content}</MyMessage>
-              <MyImage src={eli} />
-            </MyRow>
-          );
-        } else {
-          return (
-            <PartnerRow key={index}>
-              <PartnerImage src={salome} />
-              <PartnerMessage>{message.content}</PartnerMessage>
-            </PartnerRow>
-          );
-        }
-      })}
-      <Forms toUsername={toUsername} />
-    </MessageBox>
+    <MessageContainer>
+      <MessageBox ref={messageBoxRef}>
+        {messages.map((message, index) => {
+          if (message.isFromSelf) {
+            return (
+              <MyRow key={index}>
+                <MyMessage>{message.content}</MyMessage>
+                <MyImage src={eli} />
+              </MyRow>
+            );
+          } else {
+            return (
+              <PartnerRow key={index}>
+                <PartnerImage src={salome} />
+                <PartnerMessage>{message.content}</PartnerMessage>
+              </PartnerRow>
+            );
+          }
+        })}
+      </MessageBox>
+      <Forms onNewMessage={handleNewMessage} toUsername={toUsername} />
+    </MessageContainer>
   );
 };
 
 export default Chat;
 
-export const MessageBox = styled.div`
+const MessageContainer = styled.div`
+  height: 80vh;
   position: relative;
   width: 62%;
-  height: auto;
+  padding-bottom: 100px;
+  background-color: #f2f6fc;
+  border-radius: 20px;
+`;
+
+export const MessageBox = styled.div`
+  position: relative;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
   color: black;
   display: flex;
   flex-direction: column;
-  background-color: #f2f6fc;
-  border-radius: 20px;
 `;
 
 const MyRow = styled.div`
