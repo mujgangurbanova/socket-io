@@ -1,7 +1,5 @@
 import "emoji-mart/css/emoji-mart.css";
-
 import React, { useEffect, useRef, useState } from "react";
-
 import { Picker } from "emoji-mart";
 import happy from "../images/happy.svg";
 import paperClip from "../images/paperclip.svg";
@@ -9,9 +7,11 @@ import rightArrow from "../images/right-arrow.svg";
 import { sendMessageAction } from "../redux/actionCreators";
 import socket from "../socket";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
+import axios from "../axios";
 
 const Forms = ({ toUsername, onNewMessage }) => {
+  const currentUser = useSelector((state) => state.currentUser);
   const [input, setInput] = useState("");
   const [showEmojis, setShowEmojis] = useState(false);
   const dispatch = useDispatch();
@@ -56,6 +56,12 @@ const Forms = ({ toUsername, onNewMessage }) => {
     socket.emit("chat message", input, toUsername.username, toUsername.id);
     setInput("");
     setTimeout(onNewMessage, 10);
+
+    axios.post(`/users/${toUsername.id}/message`,{
+      fromUser: currentUser ,
+      //*yarimciq qaldi
+
+    })
   };
 
   return (
